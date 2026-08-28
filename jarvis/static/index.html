@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>JARVIS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div id="app" class="app">
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-top">
+      <button id="new-chat" class="btn primary block">New chat</button>
+      <input id="search" class="search" type="search" placeholder="Search chats…" autocomplete="off">
+    </div>
+    <nav id="chat-list" class="chat-list" aria-label="Conversations"></nav>
+    <div class="sidebar-bottom">
+      <div id="status" class="status" title="Ollama status"><span class="dot"></span><span id="status-text">connecting…</span></div>
+      <button id="open-settings" class="btn ghost block">Settings</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="toggle-sidebar" class="icon-btn" aria-label="Toggle sidebar">☰</button>
+      <h1 id="chat-title" class="chat-title" title="Click to rename">JARVIS</h1>
+      <div class="topbar-right">
+        <select id="model-select" class="model-select" title="Model"></select>
+        <button id="export-chat" class="icon-btn" title="Export as markdown">⤓</button>
+        <button id="delete-chat" class="icon-btn danger" title="Delete chat">🗑</button>
+      </div>
+    </header>
+
+    <section id="messages" class="messages" aria-live="polite">
+      <div id="empty" class="empty">
+        <h2>JARVIS</h2>
+        <p>Local assistant. Nothing leaves this machine.</p>
+        <div class="suggestions">
+          <button class="chip">Summarise this in three bullets:</button>
+          <button class="chip">Write a bash script that…</button>
+          <button class="chip">Explain this error message:</button>
+          <button class="chip">Draft a reply to this email:</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="composer">
+      <div id="composer-error" class="composer-error" hidden></div>
+      <div class="composer-box">
+        <textarea id="input" rows="1" placeholder="Ask JARVIS…  (Enter to send, Shift+Enter for a new line)" autofocus></textarea>
+        <div class="composer-actions">
+          <button id="mic" class="icon-btn" title="Voice input (browser speech recognition)">🎙</button>
+          <button id="send" class="btn primary">Send</button>
+          <button id="stop" class="btn stop" hidden>Stop</button>
+        </div>
+      </div>
+      <div id="meta" class="meta"></div>
+    </footer>
+  </main>
+
+  <div id="settings" class="modal" hidden>
+    <div class="modal-card">
+      <header class="modal-head">
+        <h2>Settings</h2>
+        <button id="close-settings" class="icon-btn" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body">
+        <label class="field">
+          <span>Default model</span>
+          <select id="set-model"></select>
+        </label>
+        <label class="field">
+          <span>System prompt</span>
+          <textarea id="set-system" rows="5"></textarea>
+        </label>
+        <div class="grid">
+          <label class="field">
+            <span>Temperature <b id="temp-val"></b></span>
+            <input id="set-temp" type="range" min="0" max="1.5" step="0.05">
+          </label>
+          <label class="field">
+            <span>Top-p <b id="topp-val"></b></span>
+            <input id="set-topp" type="range" min="0.1" max="1" step="0.05">
+          </label>
+          <label class="field">
+            <span>Context window (num_ctx)</span>
+            <input id="set-ctx" type="number" min="512" step="512">
+          </label>
+          <label class="field">
+            <span>Max reply tokens (num_predict)</span>
+            <input id="set-predict" type="number" min="-1" step="64">
+          </label>
+          <label class="field">
+            <span>CPU threads</span>
+            <input id="set-threads" type="number" min="1" max="64">
+          </label>
+          <label class="field">
+            <span>Keep model loaded</span>
+            <input id="set-keepalive" type="text" placeholder="30m">
+          </label>
+          <label class="field">
+            <span>History messages sent</span>
+            <input id="set-history" type="number" min="0" max="200">
+          </label>
+        </div>
+        <label class="check">
+          <input id="set-showthink" type="checkbox">
+          <span>Show reasoning blocks</span>
+        </label>
+        <p id="settings-hint" class="hint"></p>
+      </div>
+      <footer class="modal-foot">
+        <button id="clear-all" class="btn danger ghost">Delete all chats</button>
+        <button id="save-settings" class="btn primary">Save</button>
+      </footer>
+    </div>
+  </div>
+
+</div>
+<script src="/static/markdown.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
