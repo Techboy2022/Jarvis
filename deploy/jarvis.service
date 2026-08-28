@@ -1,0 +1,28 @@
+[Unit]
+Description=JARVIS local assistant
+After=network-online.target ollama.service
+Wants=network-online.target
+Requires=ollama.service
+
+[Service]
+Type=simple
+# Change to the account that owns /opt/jarvis.
+User=jarvis
+Group=jarvis
+WorkingDirectory=/opt/jarvis
+EnvironmentFile=-/opt/jarvis/.env
+Environment=JARVIS_DB=/var/lib/jarvis/jarvis.db
+ExecStart=/opt/jarvis/.venv/bin/python -m jarvis.main
+Restart=on-failure
+RestartSec=3
+
+# JARVIS only needs to read its own directory and write its SQLite file.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+StateDirectory=jarvis
+ReadWritePaths=/var/lib/jarvis
+
+[Install]
+WantedBy=multi-user.target
