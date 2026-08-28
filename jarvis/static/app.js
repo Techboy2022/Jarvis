@@ -412,6 +412,7 @@
     try {
       const health = await api("/api/health");
       if (health.ok) {
+        showError("");
         el.status.className = "status ok";
         el.statusText.textContent = "online · " + health.model + (health.model_loaded ? " (loaded)" : "");
       } else {
